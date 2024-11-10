@@ -8,6 +8,7 @@ final class MainViewController: UIViewController {
         super.viewDidLoad()
         setupHierarchy()
         configureMapRegion()
+        setupMapAnnotation()
     }
 
     private func setupHierarchy() {
@@ -22,9 +23,24 @@ final class MainViewController: UIViewController {
     
     private func configureMapRegion() {
         let centeredCoordinates = CLLocationCoordinate2D(latitude: 37.334774, longitude: -122.008992)
-        let span = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.01)
+        let span = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
         let region =  MKCoordinateRegion(center: centeredCoordinates, span: span)
         mapView.setRegion(region, animated: true)
+    }
+    
+    private func setupMapAnnotation() {
+        let annotation = MKPointAnnotation()
+        annotation.coordinate = CLLocationCoordinate2D(latitude: 37.334774, longitude: -122.008992)
+        annotation.title = "Apple"
+        annotation.subtitle = "HeadQuarter"
+        
+        let salesForceAnnotation = MKPointAnnotation()
+        salesForceAnnotation.coordinate = CLLocationCoordinate2D(latitude: 37.79055, longitude: -122.38916)
+        salesForceAnnotation.title = "Salesforce"
+        salesForceAnnotation.subtitle = "Company"
+    
+        mapView.addAnnotations([annotation, salesForceAnnotation])
+        mapView.showAnnotations(mapView.annotations, animated: true)
     }
 }
 

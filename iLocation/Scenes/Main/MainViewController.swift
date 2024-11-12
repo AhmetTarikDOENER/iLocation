@@ -3,6 +3,7 @@ import MapKit
 
 final class MainViewController: UIViewController {
     private lazy var mapView = MKMapView(frame: view.bounds)
+    private let textField = UITextField()
 
     //  MARK: - Lifecycle
     override func viewDidLoad() {
@@ -27,14 +28,14 @@ final class MainViewController: UIViewController {
     
     private func configureMapRegion() {
         let centeredCoordinates = CLLocationCoordinate2D(latitude: 37.334774, longitude: -122.008992)
-        let span = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
+        let span = MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5)
         let region =  MKCoordinateRegion(center: centeredCoordinates, span: span)
         mapView.setRegion(region, animated: true)
     }
     
     private func performLocalSearch() {
         let request = MKLocalSearch.Request()
-        request.naturalLanguageQuery = "apple"
+        request.naturalLanguageQuery = textField.text
         request.region = mapView.region
         let localSearch = MKLocalSearch(request: request)
         localSearch.start { response, error in
@@ -42,8 +43,8 @@ final class MainViewController: UIViewController {
                 print("Failed local search")
                 return
             }
+            self.mapView.removeAnnotations(self.mapView.annotations)
             response?.mapItems.forEach({ mapItem in
-                print(mapItem.composeAddress())
                 let annotation = MKPointAnnotation()
                 annotation.coordinate = mapItem.placemark.coordinate
                 annotation.title = mapItem.name
@@ -68,6 +69,11 @@ final class MainViewController: UIViewController {
             textField.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
             textField.bottomAnchor.constraint(equalTo: containerView.bottomAnchor)
         ])
+        textField.addTarget(self, action: #selector(handleSearchChanges), for: .editingChanged)
+    }
+    
+    @objc private func handleSearchChanges() {
+        performLocalSearch()
     }
 }
 //  MARK: - MainViewController+UIComponentBuilders
@@ -84,7 +90,6 @@ extension MainViewController {
     }
     
     fileprivate func buildTextField() -> UITextField {
-        let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.placeholder = "Search"
         textField.leftView = .init(frame: .init(x: 0, y: 0, width: 10, height: 10))

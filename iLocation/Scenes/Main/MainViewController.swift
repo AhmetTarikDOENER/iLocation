@@ -10,7 +10,8 @@ final class MainViewController: UIViewController {
         mapView.delegate = self
         setupHierarchy()
         configureMapRegion()
-        setupMapAnnotation()
+//        setupMapAnnotation()
+        performLocalSearch()
     }
 
     //  MARK: - Private
@@ -29,6 +30,22 @@ final class MainViewController: UIViewController {
         let span = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
         let region =  MKCoordinateRegion(center: centeredCoordinates, span: span)
         mapView.setRegion(region, animated: true)
+    }
+    
+    private func performLocalSearch() {
+        let request = MKLocalSearch.Request()
+        request.naturalLanguageQuery = "Apple"
+        request.region = mapView.region
+        let localSearch = MKLocalSearch(request: request)
+        localSearch.start { response, error in
+            if let error = error {
+                print("Failed local search")
+                return
+            }
+            response?.mapItems.forEach({ mapItem in
+                print(mapItem.name ?? "")
+            })
+        }
     }
     
     private func setupMapAnnotation() {
@@ -50,10 +67,9 @@ final class MainViewController: UIViewController {
 //  MARK: - MKMapViewDelegate
 extension MainViewController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, viewFor annotation: any MKAnnotation) -> MKAnnotationView? {
-        let customAnnotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: "annotation_identifier")
+        let customAnnotationView = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: "annotation_identifier")
         customAnnotationView.canShowCallout = true
-        customAnnotationView.image = UIImage(named: "map")
-        
+
         return customAnnotationView
     }
 }

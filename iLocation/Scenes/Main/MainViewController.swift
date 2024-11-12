@@ -11,6 +11,7 @@ final class MainViewController: UIViewController {
         setupHierarchy()
         configureMapRegion()
         performLocalSearch()
+        setupSearchUI()
     }
 
     //  MARK: - Private
@@ -42,17 +43,7 @@ final class MainViewController: UIViewController {
                 return
             }
             response?.mapItems.forEach({ mapItem in
-                let placeMark = mapItem.placemark
-                let addressComponents = [
-                    placeMark.subThoroughfare,
-                    placeMark.thoroughfare,
-                    placeMark.postalCode,
-                    placeMark.locality,
-                    placeMark.administrativeArea,
-                    placeMark.country
-                ]
-                let addressString = addressComponents.compactMap { $0 }.joined(separator: ", ")
-                print(addressString)
+                print(mapItem.composeAddress())
                 let annotation = MKPointAnnotation()
                 annotation.coordinate = mapItem.placemark.coordinate
                 annotation.title = mapItem.name
@@ -60,6 +51,61 @@ final class MainViewController: UIViewController {
             })
             self.mapView.showAnnotations(self.mapView.annotations, animated: true)
         }
+    }
+
+    private func setupSearchUI() {
+        let textField = buildTextField()
+        let containerView = buildContainerView()
+        view.addSubview(containerView)
+        containerView.addSubview(textField)
+        NSLayoutConstraint.activate([
+            containerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
+            containerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            containerView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            containerView.heightAnchor.constraint(equalToConstant: 50),
+            textField.topAnchor.constraint(equalTo: containerView.topAnchor),
+            textField.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
+            textField.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
+            textField.bottomAnchor.constraint(equalTo: containerView.bottomAnchor)
+        ])
+    }
+}
+//  MARK: - MainViewController+UIComponentBuilders
+extension MainViewController {
+    fileprivate func buildContainerView() -> UIView {
+        let containerView = UIView()
+        containerView.layer.cornerRadius = 12
+        containerView.layer.borderColor = UIColor.label.cgColor
+        containerView.layer.borderWidth = 0.5
+        containerView.translatesAutoresizingMaskIntoConstraints = false
+        containerView.backgroundColor = .systemBackground
+        
+        return containerView
+    }
+    
+    fileprivate func buildTextField() -> UITextField {
+        let textField = UITextField()
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        textField.placeholder = "Search"
+        textField.leftView = .init(frame: .init(x: 0, y: 0, width: 10, height: 10))
+        textField.leftViewMode = .always
+        
+        return textField
+    }
+}
+
+//  MARK: - MKMapItem
+extension MKMapItem {
+    func composeAddress() -> String {
+        let addressComponents = [
+            placemark.subThoroughfare,
+            placemark.thoroughfare,
+            placemark.postalCode,
+            placemark.locality,
+            placemark.administrativeArea,
+            placemark.country
+        ]
+        return addressComponents.compactMap { $0 }.joined(separator: ", ")
     }
 }
 

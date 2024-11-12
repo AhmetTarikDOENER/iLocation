@@ -43,25 +43,15 @@ final class MainViewController: UIViewController {
             }
             response?.mapItems.forEach({ mapItem in
                 let placeMark = mapItem.placemark
-                var addressString = ""
-                if placeMark.subThoroughfare != nil {
-                    addressString = placeMark.subThoroughfare! + " "
-                }
-                if placeMark.thoroughfare != nil {
-                    addressString += placeMark.thoroughfare! + ", "
-                }
-                if placeMark.postalCode != nil {
-                    addressString += placeMark.postalCode! + " "
-                }
-                if placeMark.locality != nil {
-                    addressString += placeMark.locality! + ", "
-                }
-                if placeMark.administrativeArea != nil {
-                    addressString += placeMark.administrativeArea! + " "
-                }
-                if placeMark.country != nil {
-                    addressString += placeMark.country!
-                }
+                let addressComponents = [
+                    placeMark.subThoroughfare,
+                    placeMark.thoroughfare,
+                    placeMark.postalCode,
+                    placeMark.locality,
+                    placeMark.administrativeArea,
+                    placeMark.country
+                ]
+                let addressString = addressComponents.compactMap { $0 }.joined(separator: ", ")
                 print(addressString)
                 let annotation = MKPointAnnotation()
                 annotation.coordinate = mapItem.placemark.coordinate

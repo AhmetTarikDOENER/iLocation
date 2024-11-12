@@ -10,7 +10,6 @@ final class MainViewController: UIViewController {
         mapView.delegate = self
         setupHierarchy()
         configureMapRegion()
-//        setupMapAnnotation()
         performLocalSearch()
     }
 
@@ -34,7 +33,7 @@ final class MainViewController: UIViewController {
     
     private func performLocalSearch() {
         let request = MKLocalSearch.Request()
-        request.naturalLanguageQuery = "Apple"
+        request.naturalLanguageQuery = "apple"
         request.region = mapView.region
         let localSearch = MKLocalSearch(request: request)
         localSearch.start { response, error in
@@ -43,24 +42,34 @@ final class MainViewController: UIViewController {
                 return
             }
             response?.mapItems.forEach({ mapItem in
-                print(mapItem.name ?? "")
+                let placeMark = mapItem.placemark
+                var addressString = ""
+                if placeMark.subThoroughfare != nil {
+                    addressString = placeMark.subThoroughfare! + " "
+                }
+                if placeMark.thoroughfare != nil {
+                    addressString += placeMark.thoroughfare! + ", "
+                }
+                if placeMark.postalCode != nil {
+                    addressString += placeMark.postalCode! + " "
+                }
+                if placeMark.locality != nil {
+                    addressString += placeMark.locality! + ", "
+                }
+                if placeMark.administrativeArea != nil {
+                    addressString += placeMark.administrativeArea! + " "
+                }
+                if placeMark.country != nil {
+                    addressString += placeMark.country!
+                }
+                print(addressString)
+                let annotation = MKPointAnnotation()
+                annotation.coordinate = mapItem.placemark.coordinate
+                annotation.title = mapItem.name
+                self.mapView.addAnnotation(annotation)
             })
+            self.mapView.showAnnotations(self.mapView.annotations, animated: true)
         }
-    }
-    
-    private func setupMapAnnotation() {
-        let annotation = MKPointAnnotation()
-        annotation.coordinate = CLLocationCoordinate2D(latitude: 37.334774, longitude: -122.008992)
-        annotation.title = "Apple"
-        annotation.subtitle = "Cupertino, CA"
-        
-        let salesForceAnnotation = MKPointAnnotation()
-        salesForceAnnotation.coordinate = CLLocationCoordinate2D(latitude: 37.79055, longitude: -122.38916)
-        salesForceAnnotation.title = "Salesforce"
-        salesForceAnnotation.subtitle = "Financial District, SF"
-    
-        mapView.addAnnotations([annotation, salesForceAnnotation])
-        mapView.showAnnotations(mapView.annotations, animated: true)
     }
 }
 
@@ -69,6 +78,7 @@ extension MainViewController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, viewFor annotation: any MKAnnotation) -> MKAnnotationView? {
         let customAnnotationView = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: "annotation_identifier")
         customAnnotationView.canShowCallout = true
+        customAnnotationView.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
 
         return customAnnotationView
     }

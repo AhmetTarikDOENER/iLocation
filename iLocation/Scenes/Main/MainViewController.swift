@@ -11,8 +11,7 @@ final class MainViewController: UIViewController {
         textField.placeholder = "Search"
         textField.leftView = .init(frame: .init(x: 0, y: 0, width: 10, height: 10))
         textField.leftViewMode = .always
-//        textField.addTarget(self, action: #selector(handleSearchTextChanges), for: .editingChanged)
-        
+
         return textField
     }()
 
@@ -25,6 +24,7 @@ final class MainViewController: UIViewController {
         setupSearchUI()
         performLocalSearch()
         setupSearchTextPublisher()
+        buildLocationCarousels()
     }
 
     //  MARK: - Private
@@ -91,6 +91,7 @@ final class MainViewController: UIViewController {
             .debounce(for: .milliseconds(500), scheduler: RunLoop.main)
             .compactMap { $0 }
             .removeDuplicates()
+            .filter({ !$0.isEmpty })
             .sink { [weak self] query in
                 self?.performLocalSearch()
             }
@@ -117,6 +118,34 @@ extension MainViewController {
         containerView.backgroundColor = .systemBackground
         
         return containerView
+    }
+    
+    class LocationCell: CustomListCell<String> {
+        override func setupViews() {
+            backgroundColor = .yellow
+        }
+    }
+    
+    class LocationCarouselController: CustomListController<LocationCell, String> {
+        override func viewDidLoad() {
+            super.viewDidLoad()
+            self.items = ["1", "2", "3"]
+        }
+    }
+    
+    private func buildLocationCarousels() {
+        let customLocationController = LocationCarouselController()
+        let locationView = customLocationController.view!
+        locationView.backgroundColor = .red
+        locationView.layer.cornerRadius = 10
+        locationView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(locationView)
+        NSLayoutConstraint.activate([
+            locationView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            locationView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            locationView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
+            locationView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.16)
+        ])
     }
 }
 

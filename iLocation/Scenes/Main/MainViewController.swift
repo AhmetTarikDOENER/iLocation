@@ -3,7 +3,7 @@ import MapKit
 import Combine
 
 final class MainViewController: UIViewController {
-    private lazy var mapView = MKMapView(frame: view.frame)
+    lazy var mapView = MKMapView(frame: view.bounds)
     private var cancellables = Set<AnyCancellable>()
     private lazy var customLocationController = LocationCarouselController(scrollDirection: .horizontal)
     private lazy var searchTextField: UITextField = {
@@ -26,6 +26,7 @@ final class MainViewController: UIViewController {
         performLocalSearch()
         setupSearchTextPublisher()
         buildLocationCarousels()
+        customLocationController.mainController = self
     }
 
     //  MARK: - Private
@@ -69,6 +70,9 @@ final class MainViewController: UIViewController {
                 self.mapView.addAnnotation(annotation)
                 self.customLocationController.items.append(mapItem)
             })
+            DispatchQueue.main.async {
+                self.customLocationController.collectionView.scrollToItem(at: [0, 0], at: .centeredHorizontally, animated: true)
+            }
             self.mapView.showAnnotations(self.mapView.annotations, animated: true)
         }
     }

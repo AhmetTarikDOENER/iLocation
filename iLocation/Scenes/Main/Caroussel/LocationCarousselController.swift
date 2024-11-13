@@ -2,10 +2,21 @@ import UIKit
 import MapKit
 
 final class LocationCarouselController: CustomListController<LocationCell, MKMapItem> {
+    weak var mainController: MainViewController?
+    
     //  MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionView.backgroundColor = .clear
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let annotations = mainController?.mapView.annotations
+        annotations?.forEach({ annotation in
+            if annotation.title == self.items[indexPath.item].name {
+                mainController?.mapView.selectAnnotation(annotation, animated: true)
+            }
+        })
     }
 }
 

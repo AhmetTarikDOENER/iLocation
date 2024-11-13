@@ -6,12 +6,6 @@ final class LocationCarouselController: CustomListController<LocationCell, MKMap
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionView.backgroundColor = .clear
-        
-        let dummyPlacemark = MKPlacemark(coordinate: .init(latitude: 10, longitude: 55))
-        let dummyMapItem = MKMapItem(placemark: dummyPlacemark)
-        dummyMapItem.name = "Dummy Location Name"
-        
-        self.items = [dummyMapItem]
     }
 }
 

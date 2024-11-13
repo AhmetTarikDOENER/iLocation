@@ -60,6 +60,7 @@ final class MainViewController: UIViewController {
                 print("Failed local search", error)
                 return
             }
+            self.customLocationController.items.removeAll()
             self.mapView.removeAnnotations(self.mapView.annotations)
             response?.mapItems.forEach({ mapItem in
                 let annotation = MKPointAnnotation()

@@ -3,7 +3,7 @@ import UIKit
 class CustomListCell<T>: UICollectionViewCell {
     var item: T!
     weak var parentController: UIViewController?
-    let separatorView = UIView(backgroundColor: UIColor(white: 0.6, alpha: 0.5))
+    let separatorView = UIView(backgroundColor: UIColor(white: 0.65, alpha: 0.55))
     
     func addSeparatorView(leadingAnchor: NSLayoutXAxisAnchor) {
         addSubview(separatorView)

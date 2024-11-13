@@ -16,7 +16,7 @@
 		455823562CE502A000CC3963 /* CustomListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 455823552CE502A000CC3963 /* CustomListController.swift */; };
 		455823582CE502AF00CC3963 /* CustomListHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 455823572CE502AF00CC3963 /* CustomListHeader.swift */; };
 		4558235A2CE502B900CC3963 /* CustomListHeaderFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 455823592CE502B900CC3963 /* CustomListHeaderFooter.swift */; };
-		4558235D2CE503C800CC3963 /* UIView+init.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4558235C2CE503C800CC3963 /* UIView+init.swift */; };
+		4558235D2CE503C800CC3963 /* UIView+UI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4558235C2CE503C800CC3963 /* UIView+UI.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,7 +31,7 @@
 		455823552CE502A000CC3963 /* CustomListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomListController.swift; sourceTree = "<group>"; };
 		455823572CE502AF00CC3963 /* CustomListHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomListHeader.swift; sourceTree = "<group>"; };
 		455823592CE502B900CC3963 /* CustomListHeaderFooter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomListHeaderFooter.swift; sourceTree = "<group>"; };
-		4558235C2CE503C800CC3963 /* UIView+init.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+init.swift"; sourceTree = "<group>"; };
+		4558235C2CE503C800CC3963 /* UIView+UI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+UI.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,7 +122,7 @@
 		4558235B2CE503B600CC3963 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				4558235C2CE503C800CC3963 /* UIView+init.swift */,
+				4558235C2CE503C800CC3963 /* UIView+UI.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -201,7 +201,7 @@
 				455823582CE502AF00CC3963 /* CustomListHeader.swift in Sources */,
 				451AADE12CE0D66D00F904F4 /* SceneDelegate.swift in Sources */,
 				455823542CE5029600CC3963 /* CustomListCell.swift in Sources */,
-				4558235D2CE503C800CC3963 /* UIView+init.swift in Sources */,
+				4558235D2CE503C800CC3963 /* UIView+UI.swift in Sources */,
 				451AADF42CE0D81000F904F4 /* MainViewController.swift in Sources */,
 				4558235A2CE502B900CC3963 /* CustomListHeaderFooter.swift in Sources */,
 				455823562CE502A000CC3963 /* CustomListController.swift in Sources */,

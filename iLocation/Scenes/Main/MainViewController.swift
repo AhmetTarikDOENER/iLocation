@@ -5,6 +5,7 @@ import Combine
 final class MainViewController: UIViewController {
     private lazy var mapView = MKMapView(frame: view.frame)
     private var cancellables = Set<AnyCancellable>()
+    private lazy var customLocationController = LocationCarouselController(scrollDirection: .horizontal)
     private lazy var searchTextField: UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
@@ -122,27 +123,44 @@ extension MainViewController {
     
     class LocationCell: CustomListCell<String> {
         override func setupViews() {
-            backgroundColor = .yellow
+            backgroundColor = .quaternaryLabel
+            self.layer.cornerRadius = 12
+            setupShadow(
+                opacity: 0.1,
+                radius: 10,
+                offset: .zero,
+                color: .black
+            )
         }
     }
     
-    class LocationCarouselController: CustomListController<LocationCell, String> {
+    class LocationCarouselController: CustomListController<LocationCell, String>, UICollectionViewDelegateFlowLayout {
         override func viewDidLoad() {
             super.viewDidLoad()
+            collectionView.clipsToBounds = false
+            collectionView.backgroundColor = .clear
             self.items = ["1", "2", "3"]
+        }
+        func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+            .init(width: view.frame.width - 90, height: view.frame.height)
+        }
+        
+        func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+            .init(top: 0, left: 20, bottom: 0, right: 20)
+        }
+        
+        func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+            20
         }
     }
     
     private func buildLocationCarousels() {
-        let customLocationController = LocationCarouselController()
         let locationView = customLocationController.view!
-        locationView.backgroundColor = .red
-        locationView.layer.cornerRadius = 10
         locationView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(locationView)
         NSLayoutConstraint.activate([
-            locationView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            locationView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            locationView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            locationView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             locationView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
             locationView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.16)
         ])

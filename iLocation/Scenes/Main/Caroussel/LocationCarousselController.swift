@@ -5,7 +5,6 @@ final class LocationCarouselController: CustomListController<LocationCell, MKMap
     //  MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        collectionView.clipsToBounds = false
         collectionView.backgroundColor = .clear
         
         let dummyPlacemark = MKPlacemark(coordinate: .init(latitude: 10, longitude: 55))

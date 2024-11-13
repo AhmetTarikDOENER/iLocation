@@ -66,6 +66,7 @@ final class MainViewController: UIViewController {
                 annotation.coordinate = mapItem.placemark.coordinate
                 annotation.title = mapItem.name
                 self.mapView.addAnnotation(annotation)
+                self.customLocationController.items.append(mapItem)
             })
             self.mapView.showAnnotations(self.mapView.annotations, animated: true)
         }

@@ -18,6 +18,7 @@
 		4558235A2CE502B900CC3963 /* CustomListHeaderFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 455823592CE502B900CC3963 /* CustomListHeaderFooter.swift */; };
 		4558235D2CE503C800CC3963 /* UIView+UI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4558235C2CE503C800CC3963 /* UIView+UI.swift */; };
 		455823602CE5117700CC3963 /* LocationCarousselController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4558235F2CE5117700CC3963 /* LocationCarousselController.swift */; };
+		455823622CE51C3B00CC3963 /* LocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 455823612CE51C3B00CC3963 /* LocationCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +35,7 @@
 		455823592CE502B900CC3963 /* CustomListHeaderFooter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomListHeaderFooter.swift; sourceTree = "<group>"; };
 		4558235C2CE503C800CC3963 /* UIView+UI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+UI.swift"; sourceTree = "<group>"; };
 		4558235F2CE5117700CC3963 /* LocationCarousselController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationCarousselController.swift; sourceTree = "<group>"; };
+		455823612CE51C3B00CC3963 /* LocationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,7 +98,7 @@
 		451AADF62CE0D86A00F904F4 /* Main */ = {
 			isa = PBXGroup;
 			children = (
-				4558235E2CE5116200CC3963 /* Caroussels */,
+				4558235E2CE5116200CC3963 /* Caroussel */,
 				451AADF32CE0D81000F904F4 /* MainViewController.swift */,
 			);
 			path = Main;
@@ -130,12 +132,13 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
-		4558235E2CE5116200CC3963 /* Caroussels */ = {
+		4558235E2CE5116200CC3963 /* Caroussel */ = {
 			isa = PBXGroup;
 			children = (
 				4558235F2CE5117700CC3963 /* LocationCarousselController.swift */,
+				455823612CE51C3B00CC3963 /* LocationCell.swift */,
 			);
-			path = Caroussels;
+			path = Caroussel;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -214,6 +217,7 @@
 				451AADE12CE0D66D00F904F4 /* SceneDelegate.swift in Sources */,
 				455823542CE5029600CC3963 /* CustomListCell.swift in Sources */,
 				4558235D2CE503C800CC3963 /* UIView+UI.swift in Sources */,
+				455823622CE51C3B00CC3963 /* LocationCell.swift in Sources */,
 				451AADF42CE0D81000F904F4 /* MainViewController.swift in Sources */,
 				4558235A2CE502B900CC3963 /* CustomListHeaderFooter.swift in Sources */,
 				455823562CE502A000CC3963 /* CustomListController.swift in Sources */,

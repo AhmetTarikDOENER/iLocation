@@ -15,7 +15,7 @@ final class MainViewController: UIViewController {
 
         return textField
     }()
-
+    
     //  MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -72,6 +72,13 @@ final class MainViewController: UIViewController {
     }
 
     private func setupSearchUI() {
+        view.addSubview(searchTextField)
+        NSLayoutConstraint.activate([
+            searchTextField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
+            searchTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            searchTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            searchTextField.heightAnchor.constraint(equalToConstant: 50)
+        ])
         let containerView = buildContainerView()
         view.addSubview(containerView)
         containerView.addSubview(searchTextField)

@@ -6,19 +6,22 @@ final class MainViewController: UIViewController {
     lazy var mapView = MKMapView(frame: view.bounds)
     private var cancellables = Set<AnyCancellable>()
     private lazy var customLocationController = LocationCarouselController(scrollDirection: .horizontal)
+    private let locationManager = CLLocationManager()
+    
     private lazy var searchTextField: UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.placeholder = "Search"
         textField.leftView = .init(frame: .init(x: 0, y: 0, width: 10, height: 10))
         textField.leftViewMode = .always
-
+        
         return textField
     }()
     
     //  MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        requestUserLocation()
         mapView.delegate = self
         configureMapRegion()
         setupHierarchy()
@@ -28,7 +31,7 @@ final class MainViewController: UIViewController {
         buildLocationCarousels()
         customLocationController.mainController = self
     }
-
+    
     //  MARK: - Private
     private func setupHierarchy() {
         view.addSubview(mapView)
@@ -76,7 +79,7 @@ final class MainViewController: UIViewController {
             self.mapView.showAnnotations(self.mapView.annotations, animated: true)
         }
     }
-
+    
     private func setupSearchUI() {
         view.addSubview(searchTextField)
         NSLayoutConstraint.activate([
@@ -111,8 +114,26 @@ final class MainViewController: UIViewController {
             }
             .store(in: &cancellables)
     }
+    
+    private func requestUserLocation() {
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
+    }
 }
 
+//  MARK: - CLLocationManagerDelegate
+extension MainViewController: CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        switch status {
+        case .authorizedWhenInUse:
+            print("Success")
+            mapView.showsUserLocation = true
+        default:
+            print("NO no")
+            mapView.showsUserLocation = false
+        }
+    }
+}
 //  MARK: - UITextField+textPublisher
 extension UITextField {
     var textPublisher: AnyPublisher<String?, Never> {
@@ -133,7 +154,7 @@ extension MainViewController {
         
         return containerView
     }
-
+    
     private func buildLocationCarousels() {
         let locationView = customLocationController.view!
         locationView.translatesAutoresizingMaskIntoConstraints = false
@@ -165,11 +186,14 @@ extension MKMapItem {
 //  MARK: - MKMapViewDelegate
 extension MainViewController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, viewFor annotation: any MKAnnotation) -> MKAnnotationView? {
-        let customAnnotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: "annotation_identifier")
-        customAnnotationView.canShowCallout = true
-        customAnnotationView.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
-
-        return customAnnotationView
+        if (annotation is MKPointAnnotation) {
+            let customAnnotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: "annotation_identifier")
+            customAnnotationView.canShowCallout = true
+            customAnnotationView.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
+            
+            return customAnnotationView
+        }
+        return nil
     }
 }
 
@@ -185,7 +209,7 @@ struct MainPreview: PreviewProvider {
     struct ContainerView: UIViewControllerRepresentable {
         typealias UIViewControllerType = MainViewController
         
-        func makeUIViewController(context: Context) -> MainViewController { 
+        func makeUIViewController(context: Context) -> MainViewController {
             MainViewController()
         }
         

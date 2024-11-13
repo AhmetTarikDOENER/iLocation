@@ -17,6 +17,7 @@
 		455823582CE502AF00CC3963 /* CustomListHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 455823572CE502AF00CC3963 /* CustomListHeader.swift */; };
 		4558235A2CE502B900CC3963 /* CustomListHeaderFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 455823592CE502B900CC3963 /* CustomListHeaderFooter.swift */; };
 		4558235D2CE503C800CC3963 /* UIView+UI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4558235C2CE503C800CC3963 /* UIView+UI.swift */; };
+		455823602CE5117700CC3963 /* LocationCarousselController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4558235F2CE5117700CC3963 /* LocationCarousselController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		455823572CE502AF00CC3963 /* CustomListHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomListHeader.swift; sourceTree = "<group>"; };
 		455823592CE502B900CC3963 /* CustomListHeaderFooter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomListHeaderFooter.swift; sourceTree = "<group>"; };
 		4558235C2CE503C800CC3963 /* UIView+UI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+UI.swift"; sourceTree = "<group>"; };
+		4558235F2CE5117700CC3963 /* LocationCarousselController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationCarousselController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,6 +96,7 @@
 		451AADF62CE0D86A00F904F4 /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				4558235E2CE5116200CC3963 /* Caroussels */,
 				451AADF32CE0D81000F904F4 /* MainViewController.swift */,
 			);
 			path = Main;
@@ -125,6 +128,14 @@
 				4558235C2CE503C800CC3963 /* UIView+UI.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		4558235E2CE5116200CC3963 /* Caroussels */ = {
+			isa = PBXGroup;
+			children = (
+				4558235F2CE5117700CC3963 /* LocationCarousselController.swift */,
+			);
+			path = Caroussels;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -199,6 +210,7 @@
 			files = (
 				451AADDF2CE0D66D00F904F4 /* AppDelegate.swift in Sources */,
 				455823582CE502AF00CC3963 /* CustomListHeader.swift in Sources */,
+				455823602CE5117700CC3963 /* LocationCarousselController.swift in Sources */,
 				451AADE12CE0D66D00F904F4 /* SceneDelegate.swift in Sources */,
 				455823542CE5029600CC3963 /* CustomListCell.swift in Sources */,
 				4558235D2CE503C800CC3963 /* UIView+UI.swift in Sources */,

@@ -4,12 +4,14 @@ import Combine
 
 final class MainViewController: UIViewController {
     private lazy var mapView = MKMapView(frame: view.frame)
+    private var cancellables = Set<AnyCancellable>()
     private lazy var searchTextField: UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.placeholder = "Search"
         textField.leftView = .init(frame: .init(x: 0, y: 0, width: 10, height: 10))
         textField.leftViewMode = .always
+//        textField.addTarget(self, action: #selector(handleSearchTextChanges), for: .editingChanged)
         
         return textField
     }()
@@ -22,6 +24,7 @@ final class MainViewController: UIViewController {
         setupHierarchy()
         setupSearchUI()
         performLocalSearch()
+        setupSearchTextPublisher()
     }
 
     //  MARK: - Private
@@ -81,6 +84,26 @@ final class MainViewController: UIViewController {
             searchTextField.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
             searchTextField.bottomAnchor.constraint(equalTo: containerView.bottomAnchor)
         ])
+    }
+    
+    private func setupSearchTextPublisher() {
+        searchTextField.textPublisher
+            .debounce(for: .milliseconds(500), scheduler: RunLoop.main)
+            .compactMap { $0 }
+            .removeDuplicates()
+            .sink { [weak self] query in
+                self?.performLocalSearch()
+            }
+            .store(in: &cancellables)
+    }
+}
+
+//  MARK: - UITextField+textPublisher
+extension UITextField {
+    var textPublisher: AnyPublisher<String?, Never> {
+        NotificationCenter.default.publisher(for: UITextField.textDidChangeNotification, object: self)
+            .compactMap { ($0.object as? UITextField)?.text }
+            .eraseToAnyPublisher()
     }
 }
 //  MARK: - MainViewController+UIComponentBuilders

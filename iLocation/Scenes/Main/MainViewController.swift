@@ -126,6 +126,7 @@ extension MainViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         switch status {
         case .authorizedWhenInUse:
+            locationManager.startUpdatingLocation()
             mapView.showsUserLocation = true
         default:
             mapView.showsUserLocation = false
@@ -134,9 +135,8 @@ extension MainViewController: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let firstLocation = locations.first else { return }
-        locationManager.startUpdatingLocation()
         mapView.setRegion(.init(center: firstLocation.coordinate, span: .init(latitudeDelta: 0.1, longitudeDelta: 0.1)), animated: false)
-        locationManager.stopUpdatingLocation()
+//        locationManager.stopUpdatingLocation()
     }
 }
 //  MARK: - UITextField+textPublisher

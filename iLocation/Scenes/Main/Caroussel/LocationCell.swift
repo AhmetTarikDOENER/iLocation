@@ -6,6 +6,7 @@ final class LocationCell: CustomListCell<MKMapItem> {
     override var item: MKMapItem! {
         didSet {
             textLabel.text = item.name
+            addressLabel.text = item.composeAddress()
         }
     }
     
@@ -22,9 +23,21 @@ final class LocationCell: CustomListCell<MKMapItem> {
         return label
     }()
     
+    private let addressLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "Address"
+        label.font = .systemFont(ofSize: 14, weight: .light)
+        label.numberOfLines = 0
+        
+        return label
+    }()
+    
     private lazy var carousselStackView: UIStackView = {
         let stackView = UIStackView()
-        stackView.backgroundColor = .red
+        stackView.axis = .vertical
+        stackView.distribution = .fill
+        stackView.spacing = 10
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.isLayoutMarginsRelativeArrangement = true
         stackView.layoutMargins = .init(top: 15, left: 15, bottom: 15, right: 15)
@@ -49,6 +62,8 @@ final class LocationCell: CustomListCell<MKMapItem> {
     private func configureViewHierarchy() {
         contentView.addSubview(carousselStackView)
         carousselStackView.addArrangedSubview(textLabel)
+        carousselStackView.addArrangedSubview(UIView())
+        carousselStackView.addArrangedSubview(addressLabel)
         NSLayoutConstraint.activate([
             carousselStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
             carousselStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),

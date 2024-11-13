@@ -17,6 +17,7 @@ final class LocationCarouselController: CustomListController<LocationCell, MKMap
                 mainController?.mapView.selectAnnotation(annotation, animated: true)
             }
         })
+        collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
     }
 }
 

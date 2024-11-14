@@ -12,6 +12,7 @@
 		451AADE82CE0D66E00F904F4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 451AADE72CE0D66E00F904F4 /* Assets.xcassets */; };
 		451AADEB2CE0D66E00F904F4 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 451AADEA2CE0D66E00F904F4 /* Base */; };
 		451AADF42CE0D81000F904F4 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 451AADF32CE0D81000F904F4 /* MainViewController.swift */; };
+		454448592CE681E700F27BD0 /* DirectionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 454448582CE681E700F27BD0 /* DirectionsViewController.swift */; };
 		455823542CE5029600CC3963 /* CustomListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 455823532CE5029600CC3963 /* CustomListCell.swift */; };
 		455823562CE502A000CC3963 /* CustomListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 455823552CE502A000CC3963 /* CustomListController.swift */; };
 		455823582CE502AF00CC3963 /* CustomListHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 455823572CE502AF00CC3963 /* CustomListHeader.swift */; };
@@ -29,6 +30,7 @@
 		451AADEA2CE0D66E00F904F4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		451AADEC2CE0D66E00F904F4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		451AADF32CE0D81000F904F4 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		454448582CE681E700F27BD0 /* DirectionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectionsViewController.swift; sourceTree = "<group>"; };
 		455823532CE5029600CC3963 /* CustomListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomListCell.swift; sourceTree = "<group>"; };
 		455823552CE502A000CC3963 /* CustomListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomListController.swift; sourceTree = "<group>"; };
 		455823572CE502AF00CC3963 /* CustomListHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomListHeader.swift; sourceTree = "<group>"; };
@@ -92,6 +94,7 @@
 		451AADF52CE0D86300F904F4 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				454448572CE681D600F27BD0 /* Directions */,
 				451AADF62CE0D86A00F904F4 /* Main */,
 			);
 			path = Scenes;
@@ -104,6 +107,14 @@
 				451AADF32CE0D81000F904F4 /* MainViewController.swift */,
 			);
 			path = Main;
+			sourceTree = "<group>";
+		};
+		454448572CE681D600F27BD0 /* Directions */ = {
+			isa = PBXGroup;
+			children = (
+				454448582CE681E700F27BD0 /* DirectionsViewController.swift */,
+			);
+			path = Directions;
 			sourceTree = "<group>";
 		};
 		455823512CE5023700CC3963 /* Helpers */ = {
@@ -216,6 +227,7 @@
 				451AADDF2CE0D66D00F904F4 /* AppDelegate.swift in Sources */,
 				455823582CE502AF00CC3963 /* CustomListHeader.swift in Sources */,
 				455823602CE5117700CC3963 /* LocationCarousselController.swift in Sources */,
+				454448592CE681E700F27BD0 /* DirectionsViewController.swift in Sources */,
 				451AADE12CE0D66D00F904F4 /* SceneDelegate.swift in Sources */,
 				455823542CE5029600CC3963 /* CustomListCell.swift in Sources */,
 				4558235D2CE503C800CC3963 /* UIView+UI.swift in Sources */,

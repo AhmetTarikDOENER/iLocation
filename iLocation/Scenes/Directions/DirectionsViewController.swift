@@ -64,14 +64,16 @@ final class DirectionsViewController: UIViewController {
         request.source = .init(placemark: sourcePlacemark)
         let destinationPlacemark = MKPlacemark(coordinate: .init(latitude: 37.331352, longitude: -122.030331))
         request.destination = .init(placemark: destinationPlacemark)
+        request.requestsAlternateRoutes = true
         let directions = MKDirections(request: request)
         directions.calculate { response, error in
             if let error = error {
                 print("Failed to find route info: ", error)
                 return
             }
-            guard let route = response?.routes.first else { return }
-            self.mapView.addOverlay(route.polyline)
+            response?.routes.forEach({ route in
+                self.mapView.addOverlay(route.polyline)
+            })
         }
     }
 }
@@ -80,7 +82,7 @@ final class DirectionsViewController: UIViewController {
 extension DirectionsViewController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, rendererFor overlay: any MKOverlay) -> MKOverlayRenderer {
         let polylineRenderer = MKPolylineRenderer(overlay: overlay)
-        polylineRenderer.strokeColor = .systemRed
+        polylineRenderer.strokeColor = #colorLiteral(red: 0.1215686275, green: 0.5607843137, blue: 0.9647058824, alpha: 1)
         polylineRenderer.lineWidth = 5
         
         return polylineRenderer

@@ -136,7 +136,12 @@ extension MainViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let firstLocation = locations.first else { return }
         mapView.setRegion(.init(center: firstLocation.coordinate, span: .init(latitudeDelta: 0.1, longitudeDelta: 0.1)), animated: false)
-//        locationManager.stopUpdatingLocation()
+        locationManager.stopUpdatingLocation()
+    }
+    
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        guard let index = self.customLocationController.items.firstIndex(where: { $0.name == view.annotation?.title }) else { return }
+        self.customLocationController.collectionView.scrollToItem(at: [0, index], at: .centeredHorizontally, animated: true)
     }
 }
 //  MARK: - UITextField+textPublisher

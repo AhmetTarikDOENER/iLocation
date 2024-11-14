@@ -9,10 +9,12 @@ final class DirectionsViewController: UIViewController {
     //  MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        mapView.delegate = self
         setupHierarchy()
         configureMapRegion()
         mapView.showsUserLocation = true
         configureFromToAnnotations()
+        configureRequestForDirections()
     }
     
     //  MARK: - Private
@@ -38,7 +40,7 @@ final class DirectionsViewController: UIViewController {
     
     private func configureMapRegion() {
         let centeredCoordinates = CLLocationCoordinate2D(latitude: 37.334774, longitude: -122.008992)
-        let span = MKCoordinateSpan(latitudeDelta: 1, longitudeDelta: 1)
+        let span = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
         let region =  MKCoordinateRegion(center: centeredCoordinates, span: span)
         
         mapView.setRegion(region, animated: true)
@@ -55,8 +57,35 @@ final class DirectionsViewController: UIViewController {
         mapView.addAnnotations([startingAnnotation, endingAnnotation])
         mapView.showAnnotations(mapView.annotations, animated: true)
     }
+    
+    private func configureRequestForDirections() {
+        let request = MKDirections.Request()
+        let sourcePlacemark = MKPlacemark(coordinate: .init(latitude: 37.78807, longitude: -122.50111))
+        request.source = .init(placemark: sourcePlacemark)
+        let destinationPlacemark = MKPlacemark(coordinate: .init(latitude: 37.331352, longitude: -122.030331))
+        request.destination = .init(placemark: destinationPlacemark)
+        let directions = MKDirections(request: request)
+        directions.calculate { response, error in
+            if let error = error {
+                print("Failed to find route info: ", error)
+                return
+            }
+            guard let route = response?.routes.first else { return }
+            self.mapView.addOverlay(route.polyline)
+        }
+    }
 }
 
+//  MARK: - MKMapViewDelegate
+extension DirectionsViewController: MKMapViewDelegate {
+    func mapView(_ mapView: MKMapView, rendererFor overlay: any MKOverlay) -> MKOverlayRenderer {
+        let polylineRenderer = MKPolylineRenderer(overlay: overlay)
+        polylineRenderer.strokeColor = .systemRed
+        polylineRenderer.lineWidth = 5
+        
+        return polylineRenderer
+    }
+}
 //  MARK: - DirectionsProvider
 struct DirectionsPreview: PreviewProvider {
     static var previews: some View {

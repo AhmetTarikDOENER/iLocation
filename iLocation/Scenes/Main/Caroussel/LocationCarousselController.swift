@@ -12,8 +12,10 @@ final class LocationCarouselController: CustomListController<LocationCell, MKMap
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let annotations = mainController?.mapView.annotations
+        
         annotations?.forEach({ annotation in
-            if annotation.title == self.items[indexPath.item].name {
+            guard let annotation = annotation as? MainViewController.CustomMKPointAnnotation else { return }
+            if annotation.mapItem?.name == self.items[indexPath.item].name {
                 mainController?.mapView.selectAnnotation(annotation, animated: true)
             }
         })

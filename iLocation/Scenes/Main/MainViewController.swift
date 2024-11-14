@@ -67,9 +67,10 @@ final class MainViewController: UIViewController {
             self.customLocationController.items.removeAll()
             self.mapView.removeAnnotations(self.mapView.annotations)
             response?.mapItems.forEach({ mapItem in
-                let annotation = MKPointAnnotation()
+                let annotation = CustomMKPointAnnotation()
+                annotation.mapItem = mapItem
                 annotation.coordinate = mapItem.placemark.coordinate
-                annotation.title = mapItem.name
+                annotation.title = "Location: " + (mapItem.name ?? "")
                 self.mapView.addAnnotation(annotation)
                 self.customLocationController.items.append(mapItem)
             })
@@ -78,6 +79,10 @@ final class MainViewController: UIViewController {
             }
             self.mapView.showAnnotations(self.mapView.annotations, animated: true)
         }
+    }
+    
+    final class CustomMKPointAnnotation: MKPointAnnotation {
+        var mapItem: MKMapItem?
     }
     
     private func setupSearchUI() {
@@ -140,7 +145,8 @@ extension MainViewController: CLLocationManagerDelegate {
     }
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-        guard let index = self.customLocationController.items.firstIndex(where: { $0.name == view.annotation?.title }) else { return }
+        guard let annotation = view.annotation as? CustomMKPointAnnotation else { return }
+        guard let index = self.customLocationController.items.firstIndex(where: { $0.name == annotation.mapItem?.name }) else { return }
         self.customLocationController.collectionView.scrollToItem(at: [0, index], at: .centeredHorizontally, animated: true)
     }
 }

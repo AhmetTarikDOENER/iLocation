@@ -13,7 +13,7 @@ final class DirectionsViewController: UIViewController {
         textField.leftView = UIView(frame: .init(x: 0, y: 0, width: 10, height: 10))
         textField.attributedPlaceholder = .init(
             string: "From",
-            attributes: [.foregroundColor : UIColor.label]
+            attributes: [.foregroundColor : UIColor.tertiaryLabel]
         )
         
         return textField
@@ -26,10 +26,28 @@ final class DirectionsViewController: UIViewController {
         textField.leftView = UIView(frame: .init(x: 0, y: 0, width: 10, height: 10))
         textField.attributedPlaceholder = .init(
             string: "To",
-            attributes: [.foregroundColor : UIColor.label]
+            attributes: [.foregroundColor : UIColor.tertiaryLabel]
         )
         
         return textField
+    }()
+    
+    private let hTopStack: UIStackView = {
+        let stack = UIStackView()
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        stack.axis = .horizontal
+        stack.spacing = 10
+
+        return stack
+    }()
+    
+    private let hBottomStack: UIStackView = {
+        let stack = UIStackView()
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        stack.axis = .horizontal
+        stack.spacing = 6
+
+        return stack
     }()
     
     private let vStack: UIStackView = {
@@ -61,17 +79,31 @@ final class DirectionsViewController: UIViewController {
         view.addSubview(mapView)
         mapView.translatesAutoresizingMaskIntoConstraints = false
         navigationBarView.translatesAutoresizingMaskIntoConstraints = false
-        navigationBarView.backgroundColor = #colorLiteral(red: 0.1215686275, green: 0.5607843137, blue: 0.9647058824, alpha: 1)
+        navigationBarView.backgroundColor = #colorLiteral(red: 0.1215686275, green: 0.5607843137, blue: 0.9647058824, alpha: 1).withAlphaComponent(0.35)
         navigationBarView.setupShadow(opacity: 1, radius: 5)
         view.addSubview(navigationBarView)
+        
+        let sourceImageView = UIImageView(image: UIImage(systemName: "location.square.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 25)))
+        sourceImageView.contentMode = .scaleAspectFit
+        sourceImageView.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        
+        let destinationImageView = UIImageView(image: UIImage(systemName: "arrow.triangle.turn.up.right.diamond.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 25)))
+        destinationImageView.contentMode = .scaleAspectFit
+        destinationImageView.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        
         navigationBarView.addSubview(vStack)
-        vStack.addArrangedSubview(sourceTextField)
-        vStack.addArrangedSubview(destinationTextField)
+        vStack.addArrangedSubview(hTopStack)
+        vStack.addArrangedSubview(hBottomStack)
+        hTopStack.addArrangedSubview(sourceImageView)
+        hTopStack.addArrangedSubview(sourceTextField)
+        hBottomStack.addArrangedSubview(destinationImageView)
+        hBottomStack.addArrangedSubview(destinationTextField)
         [sourceTextField, destinationTextField].forEach { textField in
             textField.backgroundColor = UIColor(white: 1, alpha: 0.5)
             textField.layer.cornerRadius = 6
             textField.textColor = .white
         }
+        
         NSLayoutConstraint.activate([
             mapView.topAnchor.constraint(equalTo: navigationBarView.bottomAnchor),
             mapView.leadingAnchor.constraint(equalTo: view.leadingAnchor),

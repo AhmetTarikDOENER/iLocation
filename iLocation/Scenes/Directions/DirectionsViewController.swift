@@ -15,6 +15,7 @@ final class DirectionsViewController: UIViewController {
             string: "From",
             attributes: [.foregroundColor : UIColor.tertiaryLabel]
         )
+        textField.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleChangeSource)))
         
         return textField
     }()
@@ -65,6 +66,7 @@ final class DirectionsViewController: UIViewController {
     //  MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationController?.navigationBar.isHidden = true
         mapView.delegate = self
         setupHierarchy()
         configureMapRegion()
@@ -156,6 +158,12 @@ final class DirectionsViewController: UIViewController {
             self.mapView.addOverlay(route.polyline)
         }
     }
+    
+    @objc private func handleChangeSource() {
+        let viewController = UIViewController()
+        viewController.view.backgroundColor = .red
+        navigationController?.pushViewController(viewController, animated: true)
+    }
 }
 
 //  MARK: - MKMapViewDelegate
@@ -177,7 +185,7 @@ struct DirectionsPreview: PreviewProvider {
     }
     
     struct ContainerView: UIViewControllerRepresentable {
-        func makeUIViewController(context: Context) -> some UIViewController { DirectionsViewController() }
+        func makeUIViewController(context: Context) -> some UIViewController { UINavigationController(rootViewController: DirectionsViewController()) }
         func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) { }
     }
 }

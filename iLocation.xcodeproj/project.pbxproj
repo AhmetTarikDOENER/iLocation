@@ -38,7 +38,6 @@
 		4558235C2CE503C800CC3963 /* UIView+UI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+UI.swift"; sourceTree = "<group>"; };
 		4558235F2CE5117700CC3963 /* LocationCarousselController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationCarousselController.swift; sourceTree = "<group>"; };
 		455823612CE51C3B00CC3963 /* LocationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationCell.swift; sourceTree = "<group>"; };
-		455823672CE546B400CC3963 /* CustomGPXLocation_iskenderun.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = CustomGPXLocation_iskenderun.gpx; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,7 +54,6 @@
 		451AADD22CE0D66D00F904F4 = {
 			isa = PBXGroup;
 			children = (
-				455823672CE546B400CC3963 /* CustomGPXLocation_iskenderun.gpx */,
 				451AADDD2CE0D66D00F904F4 /* iLocation */,
 				451AADDC2CE0D66D00F904F4 /* Products */,
 			);

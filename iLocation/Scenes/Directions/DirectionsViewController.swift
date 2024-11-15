@@ -6,6 +6,44 @@ final class DirectionsViewController: UIViewController {
     private let mapView = MKMapView()
     private lazy var navigationBarView = UIView()
     
+    private lazy var sourceTextField: UITextField = {
+        let textField = UITextField()
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        textField.leftViewMode = .always
+        textField.leftView = UIView(frame: .init(x: 0, y: 0, width: 10, height: 10))
+        textField.attributedPlaceholder = .init(
+            string: "From",
+            attributes: [.foregroundColor : UIColor.label]
+        )
+        
+        return textField
+    }()
+    
+    private lazy var destinationTextField: UITextField = {
+        let textField = UITextField()
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        textField.leftViewMode = .always
+        textField.leftView = UIView(frame: .init(x: 0, y: 0, width: 10, height: 10))
+        textField.attributedPlaceholder = .init(
+            string: "To",
+            attributes: [.foregroundColor : UIColor.label]
+        )
+        
+        return textField
+    }()
+    
+    private let vStack: UIStackView = {
+        let stack = UIStackView()
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        stack.axis = .vertical
+        stack.distribution = .fillEqually
+        stack.spacing = 10
+        stack.isLayoutMarginsRelativeArrangement = true
+        stack.layoutMargins = .init(top: 0, left: 15, bottom: 10, right: 15)
+
+        return stack
+    }()
+    
     //  MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,6 +64,14 @@ final class DirectionsViewController: UIViewController {
         navigationBarView.backgroundColor = #colorLiteral(red: 0.1215686275, green: 0.5607843137, blue: 0.9647058824, alpha: 1)
         navigationBarView.setupShadow(opacity: 1, radius: 5)
         view.addSubview(navigationBarView)
+        navigationBarView.addSubview(vStack)
+        vStack.addArrangedSubview(sourceTextField)
+        vStack.addArrangedSubview(destinationTextField)
+        [sourceTextField, destinationTextField].forEach { textField in
+            textField.backgroundColor = UIColor(white: 1, alpha: 0.5)
+            textField.layer.cornerRadius = 6
+            textField.textColor = .white
+        }
         NSLayoutConstraint.activate([
             mapView.topAnchor.constraint(equalTo: navigationBarView.bottomAnchor),
             mapView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -34,7 +80,11 @@ final class DirectionsViewController: UIViewController {
             navigationBarView.topAnchor.constraint(equalTo: view.topAnchor),
             navigationBarView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             navigationBarView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            navigationBarView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 100)
+            navigationBarView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 100),
+            vStack.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            vStack.leadingAnchor.constraint(equalTo: navigationBarView.leadingAnchor),
+            vStack.trailingAnchor.constraint(equalTo: navigationBarView.trailingAnchor),
+            vStack.bottomAnchor.constraint(equalTo: navigationBarView.bottomAnchor)
         ])
     }
     
@@ -64,16 +114,14 @@ final class DirectionsViewController: UIViewController {
         request.source = .init(placemark: sourcePlacemark)
         let destinationPlacemark = MKPlacemark(coordinate: .init(latitude: 37.331352, longitude: -122.030331))
         request.destination = .init(placemark: destinationPlacemark)
-        request.requestsAlternateRoutes = true
         let directions = MKDirections(request: request)
         directions.calculate { response, error in
             if let error = error {
                 print("Failed to find route info: ", error)
                 return
             }
-            response?.routes.forEach({ route in
-                self.mapView.addOverlay(route.polyline)
-            })
+            guard let response, let route = response.routes.first else { return }
+            self.mapView.addOverlay(route.polyline)
         }
     }
 }
